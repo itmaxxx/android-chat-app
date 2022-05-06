@@ -46,7 +46,9 @@ public class LoginDataSource {
 
             JSONObject jsonResponse = new JSONObject(textResponse);
 
-            Log.i("SignIn.LoginDataSource.login().response", textResponse);
+            if (jsonResponse.has("error") && jsonResponse.getBoolean("error")) {
+                return new Result.Error(new IOException("Error logging in"));
+            }
 
             return new Result.Success(new LoggedInUser(
                     jsonResponse.getString("id"),
