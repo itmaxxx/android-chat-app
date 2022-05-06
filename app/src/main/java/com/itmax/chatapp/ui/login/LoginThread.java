@@ -27,7 +27,7 @@ public class LoginThread extends Thread {
 
         if (result instanceof Result.Success) {
             LoggedInUser data = ((Result.Success<LoggedInUser>) result).getData();
-            this.loginResult.postValue(new LoginResult(new LoggedInUserView(data.getDisplayName())));
+            this.loginResult.postValue(new LoginResult(new LoggedInUserView(data.getFullname())));
         } else {
             this.loginResult.postValue(new LoginResult(R.string.login_failed));
         }

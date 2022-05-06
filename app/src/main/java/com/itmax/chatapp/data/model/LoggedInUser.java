@@ -6,18 +6,18 @@ package com.itmax.chatapp.data.model;
 public class LoggedInUser {
 
     private String userId;
-    private String displayName;
+    private String fullname;
 
-    public LoggedInUser(String userId, String displayName) {
+    public LoggedInUser(String userId, String fullname) {
         this.userId = userId;
-        this.displayName = displayName;
+        this.fullname = fullname;
     }
 
     public String getUserId() {
         return userId;
     }
 
-    public String getDisplayName() {
-        return displayName;
+    public String getFullname() {
+        return fullname;
     }
 }

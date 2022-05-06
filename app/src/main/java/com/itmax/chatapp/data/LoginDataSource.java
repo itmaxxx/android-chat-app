@@ -5,6 +5,8 @@ import android.util.Log;
 import com.itmax.chatapp.AppConfig;
 import com.itmax.chatapp.data.model.LoggedInUser;
 
+import org.json.JSONObject;
+
 import java.io.IOException;
 
 import okhttp3.MediaType;
@@ -32,13 +34,24 @@ public class LoginDataSource {
                     .post(body)
                     .build();
 
-            try (Response response = client.newCall(request).execute()) {
-                if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+            Response response = client.newCall(request).execute();
 
-                Log.i("SignIn.LoginDataSource.login().response", response.body().string());
+            if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+
+            String textResponse = response.body().string();
+
+            if (textResponse.isEmpty()) {
+                throw new Exception("Failed to read response body");
             }
 
-            return new Result.Success(new LoggedInUser("userid", "displayName"));
+            JSONObject jsonResponse = new JSONObject(textResponse);
+
+            Log.i("SignIn.LoginDataSource.login().response", textResponse);
+
+            return new Result.Success(new LoggedInUser(
+                    jsonResponse.getString("id"),
+                    jsonResponse.getString("fullname")
+            ));
         }
         catch (Exception e) {
             Log.e("SignIn.LoginDataSource", e.getMessage());
