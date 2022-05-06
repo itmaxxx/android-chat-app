@@ -23,6 +23,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.itmax.chatapp.MainActivity;
 import com.itmax.chatapp.R;
 import com.itmax.chatapp.databinding.ActivityLoginBinding;
 
@@ -74,10 +75,11 @@ public class LoginActivity extends AppCompatActivity {
                 }
                 if (loginResult.getSuccess() != null) {
                     updateUiWithUser(loginResult.getSuccess());
-                }
-                setResult(Activity.RESULT_OK);
 
-                finish();
+                    setResult(Activity.RESULT_OK);
+
+                    finish();
+                }
             }
         });
 
