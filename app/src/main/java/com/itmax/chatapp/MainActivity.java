@@ -1,8 +1,7 @@
 package com.itmax.chatapp;
 
-import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.Menu;
 
@@ -19,6 +18,7 @@ import androidx.navigation.ui.NavigationUI;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.itmax.chatapp.databinding.ActivityMainBinding;
+import com.itmax.chatapp.ui.login.LoginActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -88,5 +88,12 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
+    }
+
+    public void handleLogout() {
+        Intent loginActivity = new Intent(this, LoginActivity.class);
+        startActivity(loginActivity);
+
+        finish();
     }
 }

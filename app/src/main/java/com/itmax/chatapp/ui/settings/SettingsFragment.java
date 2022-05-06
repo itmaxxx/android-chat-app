@@ -10,6 +10,8 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.itmax.chatapp.MainActivity;
+import com.itmax.chatapp.data.LoginRepository;
 import com.itmax.chatapp.databinding.FragmentSettingsBinding;
 
 public class SettingsFragment extends Fragment {
@@ -26,6 +28,13 @@ public class SettingsFragment extends Fragment {
 
         final TextView textView = binding.textSettings;
         settingsViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+
+        binding.buttonLogout.setOnClickListener(v -> {
+            LoginRepository.getInstance().logout();
+            MainActivity mainActivity = (MainActivity) getContext();
+            mainActivity.handleLogout();
+        });
+
         return root;
     }
 
