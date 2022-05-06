@@ -2,16 +2,10 @@ package com.itmax.chatapp.data;
 
 import android.util.Log;
 
-import com.itmax.chatapp.R;
+import com.itmax.chatapp.AppConfig;
 import com.itmax.chatapp.data.model.LoggedInUser;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.concurrent.Callable;
 
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -32,9 +26,9 @@ public class LoginDataSource {
         try {
             Log.i("SignIn.LoginDataSource.login()", username + ":" + password);
 
-            RequestBody body = RequestBody.create(JSON, "{\"username\":\"itmax\",\"password\":\"qwerty\"}");
+            RequestBody body = RequestBody.create(JSON, "{\"username\":\"" + username + "\",\"" + password + "\":\"qwerty\"}");
             Request request = new Request.Builder()
-                    .url("http://192.168.0.100:3000/api/auth/sign-in")
+                    .url(AppConfig.API_URL + "/auth/sign-in")
                     .post(body)
                     .build();
 

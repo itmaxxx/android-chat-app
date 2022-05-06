@@ -4,22 +4,10 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import android.util.Log;
 import android.util.Patterns;
 
 import com.itmax.chatapp.data.LoginRepository;
-import com.itmax.chatapp.data.Result;
-import com.itmax.chatapp.data.model.LoggedInUser;
 import com.itmax.chatapp.R;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.concurrent.Callable;
-import java.util.function.Consumer;
 
 public class LoginViewModel extends ViewModel {
 

@@ -23,8 +23,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.itmax.chatapp.R;
-import com.itmax.chatapp.ui.login.LoginViewModel;
-import com.itmax.chatapp.ui.login.LoginViewModelFactory;
 import com.itmax.chatapp.databinding.ActivityLoginBinding;
 
 public class LoginActivity extends AppCompatActivity {
