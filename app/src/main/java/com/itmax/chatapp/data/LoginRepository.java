@@ -28,8 +28,16 @@ public class LoginRepository {
         return instance;
     }
 
+    public static LoginRepository getInstance() {
+        return instance;
+    }
+
     public boolean isLoggedIn() {
         return user != null;
+    }
+
+    public LoggedInUser getLoggedInUser() {
+        return user;
     }
 
     public void logout() {
