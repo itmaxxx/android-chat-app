@@ -53,7 +53,8 @@ public class LoginDataSource {
 
             return new Result.Success(new LoggedInUser(
                     jsonResponse.getString("id"),
-                    jsonResponse.getString("fullname")
+                    jsonResponse.getString("fullname"),
+                    jsonResponse.getString("token")
             ));
         }
         catch (Exception e) {

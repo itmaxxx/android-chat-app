@@ -4,23 +4,32 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import java.util.ArrayList;
+import com.itmax.chatapp.data.model.Chat;
+import com.itmax.chatapp.data.repositories.ChatsRepository;
+
 import java.util.List;
 
 public class ChatsViewModel extends ViewModel {
 
-    private final MutableLiveData<List<String>> mTexts;
+    private final ChatsRepository chatsRepository;
+    private final MutableLiveData<List<Chat>> chatsList;
 
-    public ChatsViewModel() {
-        mTexts = new MutableLiveData<>();
-        List<String> texts = new ArrayList<>();
-        for (int i = 1; i <= 16; i++) {
-            texts.add("This is item # " + i);
-        }
-        mTexts.setValue(texts);
+    public ChatsViewModel(ChatsRepository chatsRepository) {
+        this.chatsRepository = chatsRepository;
+        chatsList = new MutableLiveData<>();
+//        List<String> texts = new ArrayList<>();
+//        for (int i = 1; i <= 16; i++) {
+//            texts.add("This is item # " + i);
+//        }
+//        chatsList.setValue(texts);
+        loadChats();
     }
 
-    public LiveData<List<String>> getTexts() {
-        return mTexts;
+    private void loadChats() {
+        new ChatsThread(chatsRepository, chatsList).start();
+    }
+
+    public LiveData<List<Chat>> getChats() {
+        return chatsList;
     }
 }
