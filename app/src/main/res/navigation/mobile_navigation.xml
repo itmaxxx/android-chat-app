@@ -3,13 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/nav_transform">
+    app:startDestination="@+id/nav_chats">
 
     <fragment
-        android:id="@+id/nav_transform"
-        android:name="com.itmax.chatapp.ui.transform.TransformFragment"
-        android:label="@string/menu_transform"
-        tools:layout="@layout/fragment_transform" />
+        android:id="@+id/nav_chats"
+        android:name="com.itmax.chatapp.ui.chats.ChatsFragment"
+        android:label="@string/menu_chats"
+        tools:layout="@layout/fragment_chats" />
 
     <fragment
         android:id="@+id/nav_reflow"

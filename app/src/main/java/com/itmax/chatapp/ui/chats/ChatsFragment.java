@@ -1,4 +1,4 @@
-package com.itmax.chatapp.ui.transform;
+package com.itmax.chatapp.ui.chats;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -16,8 +16,8 @@ import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.itmax.chatapp.R;
-import com.itmax.chatapp.databinding.FragmentTransformBinding;
-import com.itmax.chatapp.databinding.ItemTransformBinding;
+import com.itmax.chatapp.databinding.FragmentChatsBinding;
+import com.itmax.chatapp.databinding.ItemChatBinding;
 
 import java.util.Arrays;
 import java.util.List;
@@ -28,22 +28,23 @@ import java.util.List;
  * the [RecyclerView] using LinearLayoutManager in a small screen
  * and shows items using GridLayoutManager in a large screen.
  */
-public class TransformFragment extends Fragment {
+public class ChatsFragment extends Fragment {
 
-    private FragmentTransformBinding binding;
+    private FragmentChatsBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        TransformViewModel transformViewModel =
-                new ViewModelProvider(this).get(TransformViewModel.class);
+        ChatsViewModel chatsViewModel =
+                new ViewModelProvider(this).get(ChatsViewModel.class);
 
-        binding = FragmentTransformBinding.inflate(inflater, container, false);
+        binding = FragmentChatsBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        RecyclerView recyclerView = binding.recyclerviewTransform;
-        ListAdapter<String, TransformViewHolder> adapter = new TransformAdapter();
+        RecyclerView recyclerView = binding.recyclerviewChats;
+        ListAdapter<String, ChatsViewHolder> adapter = new ChatsAdapter();
         recyclerView.setAdapter(adapter);
-        transformViewModel.getTexts().observe(getViewLifecycleOwner(), adapter::submitList);
+        chatsViewModel.getTexts().observe(getViewLifecycleOwner(), adapter::submitList);
+
         return root;
     }
 
@@ -53,7 +54,7 @@ public class TransformFragment extends Fragment {
         binding = null;
     }
 
-    private static class TransformAdapter extends ListAdapter<String, TransformViewHolder> {
+    private static class ChatsAdapter extends ListAdapter<String, ChatsViewHolder> {
 
         private final List<Integer> drawables = Arrays.asList(
                 R.drawable.avatar_1,
@@ -73,7 +74,7 @@ public class TransformFragment extends Fragment {
                 R.drawable.avatar_15,
                 R.drawable.avatar_16);
 
-        protected TransformAdapter() {
+        protected ChatsAdapter() {
             super(new DiffUtil.ItemCallback<String>() {
                 @Override
                 public boolean areItemsTheSame(@NonNull String oldItem, @NonNull String newItem) {
@@ -89,13 +90,13 @@ public class TransformFragment extends Fragment {
 
         @NonNull
         @Override
-        public TransformViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            ItemTransformBinding binding = ItemTransformBinding.inflate(LayoutInflater.from(parent.getContext()));
-            return new TransformViewHolder(binding);
+        public ChatsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            ItemChatBinding binding = ItemChatBinding.inflate(LayoutInflater.from(parent.getContext()));
+            return new ChatsViewHolder(binding);
         }
 
         @Override
-        public void onBindViewHolder(@NonNull TransformViewHolder holder, int position) {
+        public void onBindViewHolder(@NonNull ChatsViewHolder holder, int position) {
             holder.textView.setText(getItem(position));
             holder.imageView.setImageDrawable(
                     ResourcesCompat.getDrawable(holder.imageView.getResources(),
@@ -104,15 +105,15 @@ public class TransformFragment extends Fragment {
         }
     }
 
-    private static class TransformViewHolder extends RecyclerView.ViewHolder {
+    private static class ChatsViewHolder extends RecyclerView.ViewHolder {
 
         private final ImageView imageView;
         private final TextView textView;
 
-        public TransformViewHolder(ItemTransformBinding binding) {
+        public ChatsViewHolder(ItemChatBinding binding) {
             super(binding.getRoot());
-            imageView = binding.imageViewItemTransform;
-            textView = binding.textViewItemTransform;
+            imageView = binding.imageViewItemChat;
+            textView = binding.textViewItemChat;
         }
     }
 }
