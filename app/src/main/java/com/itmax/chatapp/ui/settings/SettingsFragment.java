@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.itmax.chatapp.MainActivity;
-import com.itmax.chatapp.data.LoginRepository;
+import com.itmax.chatapp.data.repositories.LoginRepository;
 import com.itmax.chatapp.databinding.FragmentSettingsBinding;
 
 public class SettingsFragment extends Fragment {

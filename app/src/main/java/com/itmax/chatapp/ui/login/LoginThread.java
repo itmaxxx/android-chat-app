@@ -3,7 +3,7 @@ package com.itmax.chatapp.ui.login;
 import androidx.lifecycle.MutableLiveData;
 
 import com.itmax.chatapp.R;
-import com.itmax.chatapp.data.LoginRepository;
+import com.itmax.chatapp.data.repositories.LoginRepository;
 import com.itmax.chatapp.data.Result;
 import com.itmax.chatapp.data.model.LoggedInUser;
 

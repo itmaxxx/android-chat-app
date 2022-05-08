@@ -1,8 +1,9 @@
-package com.itmax.chatapp.data;
+package com.itmax.chatapp.data.data_sources;
 
 import android.util.Log;
 
 import com.itmax.chatapp.AppConfig;
+import com.itmax.chatapp.data.Result;
 import com.itmax.chatapp.data.model.LoggedInUser;
 
 import org.json.JSONObject;

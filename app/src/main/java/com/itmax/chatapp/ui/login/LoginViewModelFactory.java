@@ -4,8 +4,8 @@ import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.annotation.NonNull;
 
-import com.itmax.chatapp.data.LoginDataSource;
-import com.itmax.chatapp.data.LoginRepository;
+import com.itmax.chatapp.data.data_sources.LoginDataSource;
+import com.itmax.chatapp.data.repositories.LoginRepository;
 
 /**
  * ViewModel provider factory to instantiate LoginViewModel.

@@ -1,5 +1,7 @@
-package com.itmax.chatapp.data;
+package com.itmax.chatapp.data.repositories;
 
+import com.itmax.chatapp.data.Result;
+import com.itmax.chatapp.data.data_sources.LoginDataSource;
 import com.itmax.chatapp.data.model.LoggedInUser;
 
 /**

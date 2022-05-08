@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel;
 
 import android.util.Patterns;
 
-import com.itmax.chatapp.data.LoginRepository;
+import com.itmax.chatapp.data.repositories.LoginRepository;
 import com.itmax.chatapp.R;
 
 public class LoginViewModel extends ViewModel {
