@@ -17,15 +17,10 @@ public class ChatsViewModel extends ViewModel {
     public ChatsViewModel(ChatsRepository chatsRepository) {
         this.chatsRepository = chatsRepository;
         chatsList = new MutableLiveData<>();
-//        List<String> texts = new ArrayList<>();
-//        for (int i = 1; i <= 16; i++) {
-//            texts.add("This is item # " + i);
-//        }
-//        chatsList.setValue(texts);
         loadChats();
     }
 
-    private void loadChats() {
+    public void loadChats() {
         new ChatsThread(chatsRepository, chatsList).start();
     }
 

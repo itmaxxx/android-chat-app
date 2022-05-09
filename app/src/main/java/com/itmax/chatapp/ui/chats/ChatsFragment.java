@@ -11,25 +11,16 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.itmax.chatapp.R;
-import com.itmax.chatapp.data.data_sources.ChatsDataSource;
 import com.itmax.chatapp.data.model.Chat;
-import com.itmax.chatapp.data.repositories.ChatsRepository;
 import com.itmax.chatapp.databinding.FragmentChatsBinding;
 import com.itmax.chatapp.databinding.ItemChatBinding;
-import com.itmax.chatapp.ui.login.LoginViewModel;
-import com.itmax.chatapp.ui.login.LoginViewModelFactory;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Fragment that demonstrates a responsive layout pattern where the format of the content
@@ -54,7 +45,16 @@ public class ChatsFragment extends Fragment {
         ListAdapter<Chat, ChatsViewHolder> adapter = new ChatsAdapter();
         recyclerView.setAdapter(adapter);
 
+        // Listen to chats list changes and update recycle view
         chatsViewModel.getChats().observe(getViewLifecycleOwner(), adapter::submitList);
+
+        // Handle refresh chats list
+        SwipeRefreshLayout swipeContainer = binding.chatsSwipeContainer;
+        swipeContainer.setOnRefreshListener(() -> {
+            Log.i("Chats", "Refresh chats list");
+            chatsViewModel.loadChats();
+            swipeContainer.setRefreshing(false);
+        });
 
         return root;
     }
