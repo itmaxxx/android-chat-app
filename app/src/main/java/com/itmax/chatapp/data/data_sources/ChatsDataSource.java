@@ -62,6 +62,7 @@ public class ChatsDataSource {
                 JSONObject chat = data.getJSONObject(i);
 
                 chatList.add(new Chat(
+                        chat.getString("id"),
                         chat.getString("name"),
                         chat.getString("image"),
                         chat.getString("lastMessage")

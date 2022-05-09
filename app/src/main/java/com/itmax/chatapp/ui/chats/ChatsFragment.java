@@ -51,30 +51,10 @@ public class ChatsFragment extends Fragment {
 
         RecyclerView recyclerView = binding.recyclerviewChats;
 
-//        List<Chat> tempList = new ArrayList<>();
-//        tempList.add(new Chat("Hello world", "img_url", "Hi there!"));
-
-        // FIXME: Not working
-        ListAdapter<Chat, ChatsViewHolder> adapter = new ChatsAdapter(new ArrayList<>());
+        ListAdapter<Chat, ChatsViewHolder> adapter = new ChatsAdapter();
         recyclerView.setAdapter(adapter);
 
-        // TODO: Handle chats list update here
         chatsViewModel.getChats().observe(getViewLifecycleOwner(), adapter::submitList);
-//        chatsViewModel.getChats().observe(getViewLifecycleOwner(), list -> {
-//            Log.i("Chats", "Chats changed, need to handle onChange observer" + list.toString());
-//
-//            adapter.submitList(list);
-//        });
-//        chatsViewModel.getChats().observe(getViewLifecycleOwner(), new Observer<List<Chat>>() {
-//            @Override
-//            public void onChanged(List<Chat> chats) {
-//                Log.i("Chats", "Chats changed, need to handle onChange observer" + chats.toString());
-//
-//                adapter::submitList(chats);
-////                ListAdapter<Chat, ChatsViewHolder> adapter = new ChatsAdapter(chats);
-////                recyclerView.setAdapter(adapter);
-//            }
-//        });
 
         return root;
     }
@@ -87,9 +67,7 @@ public class ChatsFragment extends Fragment {
 
     private static class ChatsAdapter extends ListAdapter<Chat, ChatsViewHolder> {
 
-        private final List<Chat> chatsList;
-
-        protected ChatsAdapter(List<Chat> chatsList) {
+        protected ChatsAdapter() {
             super(new DiffUtil.ItemCallback<Chat>() {
                 @Override
                 public boolean areItemsTheSame(@NonNull Chat oldItem, @NonNull Chat newItem) {
@@ -101,24 +79,18 @@ public class ChatsFragment extends Fragment {
                     return oldItem.getName().equals(newItem.getName());
                 }
             });
-
-            Log.i("ChatsArr", chatsList.toString());
-
-            this.chatsList = new ArrayList<>(chatsList);
         }
 
         @NonNull
         @Override
         public ChatsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            Log.i("Chats", "Create view holder" + chatsList.toString());
             ItemChatBinding binding = ItemChatBinding.inflate(LayoutInflater.from(parent.getContext()));
             return new ChatsViewHolder(binding);
         }
 
         @Override
         public void onBindViewHolder(@NonNull ChatsViewHolder holder, int position) {
-            Log.i("Chats", "Bind view holder" + chatsList.toString());
-            holder.textView.setText(chatsList.get(position).getName());
+            holder.textView.setText(this.getItem(position).getName());
             holder.imageView.setImageDrawable(
                     ResourcesCompat.getDrawable(holder.imageView.getResources(),
                             R.drawable.avatar_1,
