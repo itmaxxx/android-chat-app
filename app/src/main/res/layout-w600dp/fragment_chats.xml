@@ -12,7 +12,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layoutManager="GridLayoutManager"
-        app:spanCount="4"
         tools:context=".ui.chats.ChatsFragment" />
 
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

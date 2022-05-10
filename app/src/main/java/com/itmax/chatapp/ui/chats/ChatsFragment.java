@@ -26,12 +26,6 @@ import com.squareup.picasso.Picasso;
 import java.util.Arrays;
 import java.util.List;
 
-/**
- * Fragment that demonstrates a responsive layout pattern where the format of the content
- * transforms depending on the size of the screen. Specifically this Fragment shows items in
- * the [RecyclerView] using LinearLayoutManager in a small screen
- * and shows items using GridLayoutManager in a large screen.
- */
 public class ChatsFragment extends Fragment {
 
     private FragmentChatsBinding binding;
@@ -89,7 +83,7 @@ public class ChatsFragment extends Fragment {
                 R.drawable.avatar_15,
                 R.drawable.avatar_16);
 
-        private Context context;
+        private final Context context;
 
         protected ChatsAdapter(Context context) {
             super(new DiffUtil.ItemCallback<Chat>() {
@@ -117,25 +111,28 @@ public class ChatsFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(@NonNull ChatsViewHolder holder, int position) {
-            holder.textView.setText(this.getItem(position).getName());
+            holder.name.setText(this.getItem(position).getName());
+            holder.lastMessage.setText(this.getItem(position).getLastMessage());
             Picasso.with(context)
                     .load(this.getItem(position).getImage())
                     .fit()
                     .centerCrop()
                     .placeholder(avatars.get(position % avatars.size()))
-                    .into(holder.imageView);
+                    .into(holder.image);
         }
     }
 
     private static class ChatsViewHolder extends RecyclerView.ViewHolder {
 
-        private final ImageView imageView;
-        private final TextView textView;
+        private final ImageView image;
+        private final TextView name;
+        private final TextView lastMessage;
 
         public ChatsViewHolder(ItemChatBinding binding) {
             super(binding.getRoot());
-            imageView = binding.imageViewItemChat;
-            textView = binding.textViewItemChat;
+            image = binding.imageViewItemChatImage;
+            name = binding.textViewItemChatName;
+            lastMessage = binding.textViewItemChatLastMessage;
         }
     }
 }

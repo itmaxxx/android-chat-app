@@ -6,7 +6,7 @@
     android:layout_height="wrap_content">
 
     <ImageView
-        android:id="@+id/image_view_item_chat"
+        android:id="@+id/image_view_item_chat_image"
         android:layout_width="@dimen/item_chats_image_length"
         android:layout_height="@dimen/item_chats_image_length"
         android:layout_margin="8dp"
@@ -17,12 +17,26 @@
         tools:src="@tools:sample/avatars" />
 
     <TextView
-        android:id="@+id/text_view_item_chat"
+        android:id="@+id/text_view_item_chat_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@id/image_view_item_chat"
+        app:layout_constraintStart_toEndOf="@id/image_view_item_chat_image"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.1"
         tools:text="This is item # xx" />
+
+    <TextView
+        android:id="@+id/text_view_item_chat_last_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/image_view_item_chat_image"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.9"
+        tools:text="Last message" />
 </androidx.constraintlayout.widget.ConstraintLayout>
