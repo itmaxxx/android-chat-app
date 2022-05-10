@@ -9,7 +9,7 @@ public class Message {
     private int createdAt;
     private int updatedAt;
 
-    Message(String id, String chatId, String text, String author, int createdAt, int updatedAt) {
+    Message(String id, String chatId, String text, User author, int createdAt, int updatedAt) {
         this.id = id;
         this.chatId = chatId;
         this.text = text;
