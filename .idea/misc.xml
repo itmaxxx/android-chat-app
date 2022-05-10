@@ -17,7 +17,7 @@
         <entry key="app/src/main/res/layout-w600dp/item_chat.xml" value="0.1" />
         <entry key="app/src/main/res/layout-w600dp/item_transform.xml" value="0.16666666666666666" />
         <entry key="app/src/main/res/layout-w936dp/activity_login.xml" value="0.11381025248661056" />
-        <entry key="app/src/main/res/layout/activity_login.xml" value="0.15070921985815602" />
+        <entry key="app/src/main/res/layout/activity_login.xml" value="0.165" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.14492753623188406" />
         <entry key="app/src/main/res/layout/content_main.xml" value="0.14492753623188406" />
         <entry key="app/src/main/res/layout/fragment_chats.xml" value="0.14492753623188406" />
