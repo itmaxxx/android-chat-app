@@ -11,7 +11,7 @@
         android:id="@+id/recyclerview_chats"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layoutManager="GridLayoutManager"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:context=".ui.chats.ChatsFragment" />
 
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
