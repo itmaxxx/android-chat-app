@@ -5,9 +5,9 @@ public class Chat {
     private String id;
     private String name;
     private String image;
-    private String lastMessage;
+    private Message lastMessage;
 
-    public Chat(String id, String name, String image, String lastMessage) {
+    public Chat(String id, String name, String image, Message lastMessage) {
         this.id = id;
         this.name = name;
         this.image = image;
@@ -15,19 +15,34 @@ public class Chat {
     }
 
     public String getId() {
-        return this.id;
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getName() {
-        return this.name;
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getImage() {
-        return this.image;
+        return image;
     }
 
-    public String getLastMessage() {
-        return this.lastMessage;
+    public void setImage(String image) {
+        this.image = image;
     }
 
+    public Message getLastMessage() {
+        return lastMessage;
+    }
+
+    public void setLastMessage(Message lastMessage) {
+        this.lastMessage = lastMessage;
+    }
 }
