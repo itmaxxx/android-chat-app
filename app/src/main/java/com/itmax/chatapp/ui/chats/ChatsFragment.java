@@ -1,5 +1,6 @@
 package com.itmax.chatapp.ui.chats;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,7 +10,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DiffUtil;
@@ -21,6 +21,10 @@ import com.itmax.chatapp.R;
 import com.itmax.chatapp.data.model.Chat;
 import com.itmax.chatapp.databinding.FragmentChatsBinding;
 import com.itmax.chatapp.databinding.ItemChatBinding;
+import com.squareup.picasso.Picasso;
+
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Fragment that demonstrates a responsive layout pattern where the format of the content
@@ -42,7 +46,7 @@ public class ChatsFragment extends Fragment {
 
         RecyclerView recyclerView = binding.recyclerviewChats;
 
-        ListAdapter<Chat, ChatsViewHolder> adapter = new ChatsAdapter();
+        ListAdapter<Chat, ChatsViewHolder> adapter = new ChatsAdapter(getContext());
         recyclerView.setAdapter(adapter);
 
         // Listen to chats list changes and update recycle view
@@ -67,18 +71,41 @@ public class ChatsFragment extends Fragment {
 
     private static class ChatsAdapter extends ListAdapter<Chat, ChatsViewHolder> {
 
-        protected ChatsAdapter() {
+        private final List<Integer> avatars = Arrays.asList(
+                R.drawable.avatar_1,
+                R.drawable.avatar_2,
+                R.drawable.avatar_3,
+                R.drawable.avatar_4,
+                R.drawable.avatar_5,
+                R.drawable.avatar_6,
+                R.drawable.avatar_7,
+                R.drawable.avatar_8,
+                R.drawable.avatar_9,
+                R.drawable.avatar_10,
+                R.drawable.avatar_11,
+                R.drawable.avatar_12,
+                R.drawable.avatar_13,
+                R.drawable.avatar_14,
+                R.drawable.avatar_15,
+                R.drawable.avatar_16);
+
+        private Context context;
+
+        protected ChatsAdapter(Context context) {
             super(new DiffUtil.ItemCallback<Chat>() {
                 @Override
                 public boolean areItemsTheSame(@NonNull Chat oldItem, @NonNull Chat newItem) {
-                    return oldItem.getName().equals(newItem.getName());
+                    return oldItem.getId().equals(newItem.getId());
                 }
 
                 @Override
                 public boolean areContentsTheSame(@NonNull Chat oldItem, @NonNull Chat newItem) {
-                    return oldItem.getName().equals(newItem.getName());
+                    return oldItem.getName().equals(newItem.getName())
+                            || oldItem.getImage().equals(newItem.getImage());
                 }
             });
+
+            this.context = context;
         }
 
         @NonNull
@@ -91,10 +118,12 @@ public class ChatsFragment extends Fragment {
         @Override
         public void onBindViewHolder(@NonNull ChatsViewHolder holder, int position) {
             holder.textView.setText(this.getItem(position).getName());
-            holder.imageView.setImageDrawable(
-                    ResourcesCompat.getDrawable(holder.imageView.getResources(),
-                            R.drawable.avatar_1,
-                            null));
+            Picasso.with(context)
+                    .load(this.getItem(position).getImage())
+                    .fit()
+                    .centerCrop()
+                    .placeholder(avatars.get(position % avatars.size()))
+                    .into(holder.imageView);
         }
     }
 
