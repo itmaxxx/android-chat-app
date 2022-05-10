@@ -9,13 +9,21 @@
         android:id="@+id/nav_chats"
         android:name="com.itmax.chatapp.ui.chats.ChatsFragment"
         android:label="@string/menu_chats"
-        tools:layout="@layout/fragment_chats" />
+        tools:layout="@layout/fragment_chats" >
+        <action
+            android:id="@+id/action_nav_chats_to_nav_chat"
+            app:destination="@id/nav_chat" />
+    </fragment>
 
     <fragment
-        android:id="@+id/nav_reflow"
-        android:name="com.itmax.chatapp.ui.reflow.ReflowFragment"
-        android:label="@string/menu_reflow"
-        tools:layout="@layout/fragment_reflow" />
+        android:id="@+id/nav_chat"
+        android:name="com.itmax.chatapp.ui.chat.ChatFragment"
+        android:label="@string/menu_chat"
+        tools:layout="@layout/fragment_chat" >
+        <action
+            android:id="@+id/action_nav_chat_to_nav_chats"
+            app:destination="@id/nav_chats" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_slideshow"

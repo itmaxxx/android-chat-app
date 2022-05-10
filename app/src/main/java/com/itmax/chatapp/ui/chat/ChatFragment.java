@@ -1,4 +1,4 @@
-package com.itmax.chatapp.ui.reflow;
+package com.itmax.chatapp.ui.chat;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,22 +10,22 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.itmax.chatapp.databinding.FragmentReflowBinding;
+import com.itmax.chatapp.databinding.FragmentChatBinding;
 
-public class ReflowFragment extends Fragment {
+public class ChatFragment extends Fragment {
 
-    private FragmentReflowBinding binding;
+    private FragmentChatBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        ReflowViewModel reflowViewModel =
-                new ViewModelProvider(this).get(ReflowViewModel.class);
+        ChatViewModel chatViewModel =
+                new ViewModelProvider(this).get(ChatViewModel.class);
 
-        binding = FragmentReflowBinding.inflate(inflater, container, false);
+        binding = FragmentChatBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final TextView textView = binding.textReflow;
-        reflowViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+        final TextView textView = binding.textChat;
+        chatViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
 
         return root;
     }
