@@ -123,11 +123,10 @@ public class ChatsFragment extends Fragment {
                     .into(holder.image);
 
             holder.itemView.setOnClickListener(v -> {
-                // Here we should pass chat id to fragment
-                Navigation.findNavController(v).navigate(R.id.nav_chat);
-
-                String msg = "Open chat " + (position + 1);
-                Toast.makeText(v.getContext(), msg, Toast.LENGTH_SHORT).show();
+                // Handle navigate to chat screen
+                Bundle bundle = new Bundle();
+                bundle.putString("chatId", this.getItem(position).getId());
+                Navigation.findNavController(v).navigate(R.id.nav_chat, bundle);
             });
         }
     }
