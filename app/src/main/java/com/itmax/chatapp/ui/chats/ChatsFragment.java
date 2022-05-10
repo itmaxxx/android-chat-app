@@ -8,10 +8,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
@@ -119,6 +121,14 @@ public class ChatsFragment extends Fragment {
                     .centerCrop()
                     .placeholder(avatars.get(position % avatars.size()))
                     .into(holder.image);
+
+            holder.itemView.setOnClickListener(v -> {
+                // Here we should pass chat id to fragment
+                Navigation.findNavController(v).navigate(R.id.nav_chat);
+
+                String msg = "Open chat " + (position + 1);
+                Toast.makeText(v.getContext(), msg, Toast.LENGTH_SHORT).show();
+            });
         }
     }
 

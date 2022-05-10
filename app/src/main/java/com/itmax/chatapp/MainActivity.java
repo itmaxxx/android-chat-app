@@ -39,7 +39,8 @@ public class MainActivity extends AppCompatActivity {
         NavigationView navigationView = binding.navView;
         if (navigationView != null) {
             mAppBarConfiguration = new AppBarConfiguration.Builder(
-                    R.id.nav_chats, R.id.nav_chat, R.id.nav_slideshow, R.id.nav_settings)
+                    // If you want fragment to have navigate back in header, remove it from here
+                    R.id.nav_chats, R.id.nav_slideshow, R.id.nav_settings)
                     .setOpenableLayout(binding.drawerLayout)
                     .build();
             NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
