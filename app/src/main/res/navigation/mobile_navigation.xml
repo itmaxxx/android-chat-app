@@ -12,7 +12,11 @@
         tools:layout="@layout/fragment_chats" >
         <action
             android:id="@+id/action_nav_chats_to_nav_chat"
-            app:destination="@id/nav_chat" />
+            app:destination="@id/nav_chat"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
 
     <fragment
@@ -22,7 +26,11 @@
         tools:layout="@layout/fragment_chat" >
         <action
             android:id="@+id/action_nav_chat_to_nav_chats"
-            app:destination="@id/nav_chats" />
+            app:destination="@id/nav_chats"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
     </fragment>
 
     <fragment
