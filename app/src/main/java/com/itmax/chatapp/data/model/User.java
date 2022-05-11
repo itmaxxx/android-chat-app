@@ -7,7 +7,7 @@ public class User {
     private String username;
     private String image;
 
-    User(String id, String fullname, String username, String image) {
+    public User(String id, String fullname, String username, String image) {
         this.id = id;
         this.fullname = fullname;
         this.username = username;
