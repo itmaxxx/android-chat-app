@@ -5,6 +5,7 @@
       <map>
         <entry key="../../../../layout/custom_preview.xml" value="0.14895833333333333" />
         <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.177" />
+        <entry key="app/src/main/res/drawable-v24/message_item_drawable_left.xml" value="0.177" />
         <entry key="app/src/main/res/drawable/ic_message_black_24dp.xml" value="0.155" />
         <entry key="app/src/main/res/drawable/ic_settings_black_24dp.xml" value="0.1645" />
         <entry key="app/src/main/res/drawable/ic_slideshow_black_24dp.xml" value="0.1645" />
@@ -24,13 +25,14 @@
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.14492753623188406" />
         <entry key="app/src/main/res/layout/app_bar_main.xml" value="0.1184705390722942" />
         <entry key="app/src/main/res/layout/content_main.xml" value="0.14492753623188406" />
-        <entry key="app/src/main/res/layout/fragment_chat.xml" value="0.1184705390722942" />
+        <entry key="app/src/main/res/layout/fragment_chat.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_chats.xml" value="0.14492753623188406" />
         <entry key="app/src/main/res/layout/fragment_reflow.xml" value="0.1184705390722942" />
         <entry key="app/src/main/res/layout/fragment_settings.xml" value="0.14492753623188406" />
         <entry key="app/src/main/res/layout/fragment_slideshow.xml" value="0.1184705390722942" />
         <entry key="app/src/main/res/layout/fragment_transform.xml" value="0.15070921985815602" />
         <entry key="app/src/main/res/layout/item_chat.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/item_message.xml" value="0.335" />
         <entry key="app/src/main/res/layout/item_transform.xml" value="0.15070921985815602" />
         <entry key="app/src/main/res/layout/nav_header_main.xml" value="0.335" />
         <entry key="app/src/main/res/menu/bottom_navigation.xml" value="0.30512820512820515" />
