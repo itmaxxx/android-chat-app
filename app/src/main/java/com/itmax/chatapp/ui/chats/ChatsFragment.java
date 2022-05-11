@@ -21,6 +21,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.itmax.chatapp.R;
 import com.itmax.chatapp.data.model.Chat;
+import com.itmax.chatapp.data.model.Message;
 import com.itmax.chatapp.databinding.FragmentChatsBinding;
 import com.itmax.chatapp.databinding.ItemChatBinding;
 import com.squareup.picasso.Picasso;
@@ -113,8 +114,10 @@ public class ChatsFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(@NonNull ChatsViewHolder holder, int position) {
+            Message lastChatMessage = this.getItem(position).getLastMessage();
+
             holder.name.setText(this.getItem(position).getName());
-            holder.lastMessage.setText(this.getItem(position).getLastMessage());
+            holder.lastMessage.setText(lastChatMessage.getAuthor().getFullname() + ": " + lastChatMessage.getText());
             Picasso.with(context)
                     .load(this.getItem(position).getImage())
                     .fit()

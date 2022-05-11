@@ -5,6 +5,8 @@ import android.util.Log;
 import com.itmax.chatapp.AppConfig;
 import com.itmax.chatapp.data.Result;
 import com.itmax.chatapp.data.model.Chat;
+import com.itmax.chatapp.data.model.Message;
+import com.itmax.chatapp.data.model.User;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -16,7 +18,6 @@ import java.util.List;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class ChatsDataSource {
@@ -60,12 +61,26 @@ public class ChatsDataSource {
 
             for (int i = 0; i < data.length(); i++) {
                 JSONObject chat = data.getJSONObject(i);
+                JSONObject lastMessage = chat.getJSONObject("lastMessage");
+                JSONObject lastMessageAuthor = lastMessage.getJSONObject("author");
 
                 chatList.add(new Chat(
                         chat.getString("id"),
                         chat.getString("name"),
                         chat.getString("image"),
-                        chat.getString("lastMessage")
+                        new Message(
+                                lastMessage.getString("id"),
+                                lastMessage.getString("chatId"),
+                                lastMessage.getString("text"),
+                                new User(
+                                        lastMessageAuthor.getString("id"),
+                                        lastMessageAuthor.getString("fullname"),
+                                        lastMessageAuthor.getString("username"),
+                                        lastMessageAuthor.getString("image")
+                                ),
+                                lastMessage.getInt("createdAt"),
+                                lastMessage.getInt("updatedAt")
+                        )
                 ));
             }
 
