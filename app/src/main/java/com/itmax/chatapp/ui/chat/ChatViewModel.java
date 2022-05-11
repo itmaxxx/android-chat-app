@@ -21,16 +21,18 @@ public class ChatViewModel extends ViewModel {
     }
 
     public void loadChatMessages(String chatId) {
-        Runnable loadChats = () -> {
+        // Without lamba it doesn't work
+        // Runnable also doesn't work
+        Thread loadChats = new Thread(() -> {
             Result<List<Message>> result = chatRepository.getChatMessages(chatId);
 
             if (result instanceof Result.Success) {
                 List<Message> data = ((Result.Success<List<Message>>) result).getData();
                 messagesList.postValue(data);
             }
-        };
+        });
 
-        loadChats.run();
+        loadChats.start();
     }
 
     public LiveData<List<Message>> getChatMessages() {
