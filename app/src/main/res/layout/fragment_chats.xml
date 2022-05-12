@@ -12,6 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layoutManager="LinearLayoutManager"
-        tools:context=".ui.chats.ChatsFragment" />
+        tools:context=".ui.chats.ChatsFragment"
+        tools:listitem="@layout/item_chat" />
 
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
