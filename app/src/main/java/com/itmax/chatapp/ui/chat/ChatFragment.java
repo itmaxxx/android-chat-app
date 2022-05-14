@@ -3,6 +3,7 @@ package com.itmax.chatapp.ui.chat;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -60,6 +61,27 @@ public class ChatFragment extends Fragment {
 
         // Get chat messages
         chatViewModel.loadChatMessages(getArguments().getString("chatId"));
+
+        // Handle message send
+        binding.sendMessageButton.setOnClickListener(v -> {
+            try {
+                final String messageText = binding.messageEditText.getText() + "";
+
+                chatViewModel.sendMessage(getArguments().getString("chatId"), messageText);
+
+                recyclerView.scrollToPosition(adapter.getItemCount() - 1);
+
+                binding.messageEditText.setText("");
+            } catch(Exception ex) {
+                Log.e("Chat", ex.getMessage());
+                Toast.makeText(getContext(), "Failed to send message", Toast.LENGTH_LONG).show();
+            }
+        });
+
+        // Scroll to bottom when we open chat or screen keyboard
+        binding.recyclerviewChatMessages.addOnLayoutChangeListener((view, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom) -> {
+            recyclerView.scrollToPosition(adapter.getItemCount() - 1);
+        });
 
         return root;
     }
