@@ -2,6 +2,8 @@ package com.itmax.chatapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
@@ -13,8 +15,12 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.itmax.chatapp.data.model.LoggedInUser;
+import com.itmax.chatapp.data.model.User;
+import com.itmax.chatapp.data.repositories.LoginRepository;
 import com.itmax.chatapp.databinding.ActivityMainBinding;
 import com.itmax.chatapp.ui.login.LoginActivity;
+import com.squareup.picasso.Picasso;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -47,6 +53,14 @@ public class MainActivity extends AppCompatActivity {
             NavigationUI.setupWithNavController(navigationView, navController);
         }
 
+        LoggedInUser loggedInUser = LoginRepository.getInstance().getLoggedInUser();
+        this.updateNavHeaderUserData(
+                loggedInUser.getUser(),
+                navigationView.getHeaderView(0).findViewById(R.id.text_view_logged_in_user_fullname),
+                navigationView.getHeaderView(0).findViewById(R.id.text_view_logged_in_user_username),
+                navigationView.getHeaderView(0).findViewById(R.id.image_view_logged_in_user_image)
+        );
+
     }
 
     @Override
@@ -54,6 +68,17 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
+    }
+
+    public void updateNavHeaderUserData(User user, TextView fullname, TextView username, ImageView image) {
+        fullname.setText(user.getFullname());
+        username.setText(user.getFullname());
+        Picasso.with(getApplicationContext())
+                .load(user.getImage())
+                .fit()
+                .centerCrop()
+                .placeholder(R.drawable.avatar_1)
+                .into(image);
     }
 
     public void handleLogout() {
