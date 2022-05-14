@@ -8,6 +8,7 @@ import com.itmax.chatapp.data.Result;
 import com.itmax.chatapp.data.model.Message;
 import com.itmax.chatapp.data.repositories.ChatRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ChatViewModel extends ViewModel {
@@ -21,7 +22,7 @@ public class ChatViewModel extends ViewModel {
     }
 
     public void loadChatMessages(String chatId) {
-        // Without lamba it doesn't work
+        // Without lambda it doesn't work
         // Runnable also doesn't work
         Thread loadChats = new Thread(() -> {
             Result<List<Message>> result = chatRepository.getChatMessages(chatId);
@@ -33,6 +34,26 @@ public class ChatViewModel extends ViewModel {
         });
 
         loadChats.start();
+    }
+
+    public void sendMessage(String chatId, String text) {
+        Thread sendMessage = new Thread(() -> {
+            Result<Message> result = chatRepository.sendMessage(
+                    chatId,
+                    text
+            );
+
+            if (result instanceof Result.Success) {
+                Message data = ((Result.Success<Message>) result).getData();
+
+                List<Message> newMessagesList = new ArrayList<>(messagesList.getValue());
+                newMessagesList.add(data);
+
+                messagesList.postValue(newMessagesList);
+            }
+        });
+
+        sendMessage.start();
     }
 
     public LiveData<List<Message>> getChatMessages() {

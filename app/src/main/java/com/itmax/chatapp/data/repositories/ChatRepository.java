@@ -20,4 +20,8 @@ public class ChatRepository {
         return dataSource.getChatMessages(chatId, this.token);
     }
 
+    public Result<Message> sendMessage(String chatId, String text) {
+        return dataSource.sendMessage(chatId, text, token);
+    }
+
 }
