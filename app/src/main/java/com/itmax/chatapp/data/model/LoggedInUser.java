@@ -5,22 +5,32 @@ package com.itmax.chatapp.data.model;
  */
 public class LoggedInUser {
 
-    private String userId;
-    private String fullname;
+    private User user;
     private String token;
 
-    public LoggedInUser(String userId, String fullname, String token) {
-        this.userId = userId;
-        this.fullname = fullname;
+    public LoggedInUser(User user, String token) {
+        this.user = user;
         this.token = token;
     }
 
     public String getUserId() {
-        return userId;
+        return this.user.getId();
     }
 
     public String getFullname() {
-        return fullname;
+        return this.user.getFullname();
+    }
+
+    public String getUsername() {
+        return this.user.getUsername();
+    }
+
+    public String getImage() {
+        return this.user.getImage();
+    }
+
+    public User getUser() {
+        return this.user;
     }
 
     public String getToken() {
