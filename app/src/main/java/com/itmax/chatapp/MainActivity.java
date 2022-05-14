@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void updateNavHeaderUserData(User user, TextView fullname, TextView username, ImageView image) {
         fullname.setText(user.getFullname());
-        username.setText(user.getFullname());
+        username.setText("@" + user.getUsername());
         Picasso.with(getApplicationContext())
                 .load(user.getImage())
                 .fit()
