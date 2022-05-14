@@ -78,6 +78,7 @@ public class ChatsDataSource {
                                         lastMessageAuthor.getString("username"),
                                         lastMessageAuthor.getString("image")
                                 ),
+                                lastMessage.getBoolean("isAuthor"),
                                 lastMessage.getInt("createdAt"),
                                 lastMessage.getInt("updatedAt")
                         )

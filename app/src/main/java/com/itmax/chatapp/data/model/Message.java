@@ -6,14 +6,16 @@ public class Message {
     private String chatId;
     private String text;
     private User author;
+    private boolean isAuthor;
     private int createdAt;
     private int updatedAt;
 
-    public Message(String id, String chatId, String text, User author, int createdAt, int updatedAt) {
+    public Message(String id, String chatId, String text, User author, boolean isAuthor, int createdAt, int updatedAt) {
         this.id = id;
         this.chatId = chatId;
         this.text = text;
         this.author = author;
+        this.isAuthor = isAuthor;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
@@ -48,6 +50,14 @@ public class Message {
 
     public void setAuthor(User author) {
         this.author = author;
+    }
+
+    public boolean getIsAuthor() {
+        return this.isAuthor;
+    }
+
+    public void setIsAuthor(boolean isAuthor) {
+        this.isAuthor = isAuthor;
     }
 
     public int getCreatedAt() {

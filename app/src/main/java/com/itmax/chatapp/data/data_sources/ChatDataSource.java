@@ -72,6 +72,7 @@ public class ChatDataSource {
                                         author.getString("username"),
                                         author.getString("image")
                                 ),
+                                message.getBoolean("isAuthor"),
                                 message.getInt("createdAt"),
                                 message.getInt("updatedAt")
                         )
