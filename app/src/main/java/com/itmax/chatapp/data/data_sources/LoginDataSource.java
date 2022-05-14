@@ -5,6 +5,7 @@ import android.util.Log;
 import com.itmax.chatapp.AppConfig;
 import com.itmax.chatapp.data.Result;
 import com.itmax.chatapp.data.model.LoggedInUser;
+import com.itmax.chatapp.data.model.User;
 
 import org.json.JSONObject;
 
@@ -47,13 +48,21 @@ public class LoginDataSource {
 
             JSONObject jsonResponse = new JSONObject(textResponse);
 
-            if (jsonResponse.has("error") && jsonResponse.getBoolean("error")) {
+            if (jsonResponse.has("error") && jsonResponse.getBoolean("error")
+                || !jsonResponse.has("data")) {
                 return new Result.Error(new IOException("Error logging in"));
             }
 
+            JSONObject userData = jsonResponse.getJSONObject("data");
+            User user = new User(
+                    userData.getString("id"),
+                    userData.getString("fullname"),
+                    userData.getString("username"),
+                    userData.getString("image")
+            );
+
             return new Result.Success(new LoggedInUser(
-                    jsonResponse.getString("id"),
-                    jsonResponse.getString("fullname"),
+                    user,
                     jsonResponse.getString("token")
             ));
         }
