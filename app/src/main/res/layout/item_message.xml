@@ -12,25 +12,32 @@
         android:layout_height="53dp"
         android:scaleType="centerCrop"
         android:contentDescription="Sender avatar"
-        android:src="@drawable/avatar_1" />
+        android:layout_marginStart="4dp"
+        android:src="@drawable/avatar_1"
+        android:layout_gravity="bottom"/>
 
     <LinearLayout
-        android:layout_marginLeft="4dp"
         android:id="@+id/message_item_content_container"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:paddingHorizontal="14dp"
         android:paddingVertical="6dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="4dp"
         android:background="@drawable/message_item_drawable_left">
+
         <TextView
             android:id="@+id/message_item_author_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="0dp"
             android:layout_marginTop="0dp"
-            android:textSize="15dp"
-            android:textAppearance="?attr/textAppearanceListItem" />
+            android:layout_marginBottom="0dp"
+            android:textAppearance="?attr/textAppearanceListItem"
+            android:textColor="@color/purple_500"
+            android:textSize="15sp"
+            android:text="Message sender"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/message_item_content"
@@ -38,7 +45,15 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="0dp"
             android:layout_marginBottom="0dp"
-            android:textSize="15dp"
+            android:textSize="15sp"
+            android:text="Message text"
             android:textAppearance="?attr/textAppearanceListItem" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:text="10:25"
+            android:textSize="10sp" />
     </LinearLayout>
 </LinearLayout>
