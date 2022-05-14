@@ -1,11 +1,14 @@
 package com.itmax.chatapp.ui.chat;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -121,6 +124,22 @@ public class ChatFragment extends Fragment {
             Message message = this.getItem(position);
             User author = this.getItem(position).getAuthor();
 
+            if (message.getIsAuthor()) {
+                holder.container.setGravity(Gravity.END);
+                holder.contentContainer.setBackgroundResource(R.drawable.message_item_drawable_right);
+                holder.authorName.setVisibility(View.GONE);
+                holder.authorImage.setVisibility(View.GONE);
+                holder.text.setTextColor(Color.WHITE);
+                holder.time.setTextColor(Color.LTGRAY);
+            } else {
+                holder.container.setGravity(Gravity.START);
+                holder.contentContainer.setBackgroundResource(R.drawable.message_item_drawable_left);
+                holder.authorName.setVisibility(View.VISIBLE);
+                holder.authorImage.setVisibility(View.VISIBLE);
+                holder.text.setTextColor(Color.BLACK);
+                holder.time.setTextColor(Color.GRAY);
+            }
+
             holder.authorName.setText(author.getFullname());
             holder.text.setText(message.getText());
             Picasso.with(context)
@@ -137,12 +156,18 @@ public class ChatFragment extends Fragment {
         private final ImageView authorImage;
         private final TextView authorName;
         private final TextView text;
+        private final TextView time;
+        private final LinearLayout container;
+        private final LinearLayout contentContainer;
 
         public MessageViewHolder(ItemMessageBinding binding) {
             super(binding.getRoot());
             authorImage = binding.messageItemAuthorImage;
             authorName = binding.messageItemAuthorName;
             text = binding.messageItemContent;
+            time = binding.messageItemTime;
+            container = binding.messageItemContainer;
+            contentContainer = binding.messageItemContentContainer;
         }
     }
 }

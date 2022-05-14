@@ -8,9 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.text.HtmlCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
@@ -117,7 +117,8 @@ public class ChatsFragment extends Fragment {
             Message lastChatMessage = this.getItem(position).getLastMessage();
 
             holder.name.setText(this.getItem(position).getName());
-            holder.lastMessage.setText(lastChatMessage.getAuthor().getFullname() + ": " + lastChatMessage.getText());
+            String lastMessageText = "<b>" + lastChatMessage.getAuthor().getFullname() + "</b>: " + lastChatMessage.getText();
+            holder.lastMessage.setText(HtmlCompat.fromHtml(lastMessageText, HtmlCompat.FROM_HTML_MODE_LEGACY));
             Picasso.with(context)
                     .load(this.getItem(position).getImage())
                     .fit()
