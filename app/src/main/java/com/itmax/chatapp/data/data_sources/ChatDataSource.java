@@ -17,6 +17,7 @@ import java.util.List;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class ChatDataSource {
@@ -85,6 +86,63 @@ public class ChatDataSource {
             Log.e("Chat.ChatDataSource.getChatMessages", e.getMessage());
 
             return new Result.Error(new IOException("Error getting chat messages", e));
+        }
+    }
+
+    public Result<Message> sendMessage(String chatId, String text, String token) {
+        try {
+            Log.i("Chat.sendMessage", "chatId: " + chatId + "; text: " + text);
+
+            Request request = new Request.Builder()
+                    .url(AppConfig.API_URL + "/chats/" + chatId + "/messages")
+                    .addHeader("Authorization", "Bearer " + token)
+                    .post(RequestBody.create(JSON, "{\"message\":\"" + text + "\"}"))
+                    .build();
+
+            Response response = client.newCall(request).execute();
+
+            if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+
+            String textResponse = response.body().string();
+
+            if (textResponse.isEmpty()) {
+                throw new Exception("Failed to read response body");
+            }
+
+            JSONObject jsonResponse = new JSONObject(textResponse);
+
+            // TODO: Check if we get exactly type: Message
+            if (jsonResponse.has("error") && jsonResponse.getBoolean("error")) {
+                return new Result.Error(new IOException("Failed to send message"));
+            }
+
+
+            JSONObject message = jsonResponse.getJSONObject("data");
+            JSONObject author = message.getJSONObject("author");
+
+            Log.i("Chat.sendMessage", message.toString());
+
+            Message sentMessage = new Message(
+                                message.getString("id"),
+                                message.getString("chatId"),
+                                message.getString("text"),
+                                new User(
+                                        author.getString("id"),
+                                        author.getString("fullname"),
+                                        author.getString("username"),
+                                        author.getString("image")
+                                ),
+                                message.getBoolean("isAuthor"),
+                                message.getInt("createdAt"),
+                                message.getInt("updatedAt")
+            );
+
+            return new Result.Success(sentMessage);
+        }
+        catch (Exception e) {
+            Log.e("Chat.ChatDataSource.sendMessage", e.getMessage());
+
+            return new Result.Error(new IOException("Failed to send message", e));
         }
     }
 }
