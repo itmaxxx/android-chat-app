@@ -53,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
             NavigationUI.setupWithNavController(navigationView, navController);
         }
 
+        // Set left navigation user info
         LoggedInUser loggedInUser = LoginRepository.getInstance().getLoggedInUser();
         this.updateNavHeaderUserData(
                 loggedInUser.getUser(),

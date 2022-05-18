@@ -60,29 +60,9 @@ public class ChatsDataSource {
             List<Chat> chatList = new ArrayList<Chat>();
 
             for (int i = 0; i < data.length(); i++) {
-                JSONObject chat = data.getJSONObject(i);
-                JSONObject lastMessage = chat.getJSONObject("lastMessage");
-                JSONObject lastMessageAuthor = lastMessage.getJSONObject("author");
+                JSONObject chatJsonObject = data.getJSONObject(i);
 
-                chatList.add(new Chat(
-                        chat.getString("id"),
-                        chat.getString("name"),
-                        chat.getString("image"),
-                        new Message(
-                                lastMessage.getString("id"),
-                                lastMessage.getString("chatId"),
-                                lastMessage.getString("text"),
-                                new User(
-                                        lastMessageAuthor.getString("id"),
-                                        lastMessageAuthor.getString("fullname"),
-                                        lastMessageAuthor.getString("username"),
-                                        lastMessageAuthor.getString("image")
-                                ),
-                                lastMessage.getBoolean("isAuthor"),
-                                lastMessage.getInt("createdAt"),
-                                lastMessage.getInt("updatedAt")
-                        )
-                ));
+                chatList.add(new Chat(chatJsonObject));
             }
 
             return new Result.Success(chatList);
