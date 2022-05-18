@@ -1,7 +1,10 @@
 package com.itmax.chatapp.ui.chat;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -21,12 +24,14 @@ import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.itmax.chatapp.MainActivity;
 import com.itmax.chatapp.R;
 import com.itmax.chatapp.data.model.Message;
 import com.itmax.chatapp.data.model.User;
 import com.itmax.chatapp.databinding.FragmentChatBinding;
 import com.itmax.chatapp.databinding.ItemMessageBinding;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import java.util.Arrays;
 import java.util.List;
@@ -52,6 +57,9 @@ public class ChatFragment extends Fragment {
         ListAdapter<Message, MessageViewHolder> adapter = new ChatFragment.MessagesAdapter(getContext());
         recyclerView.setAdapter(adapter);
 
+        // Get chat messages
+        chatViewModel.getChatMessages(getArguments().getString("chatId"));
+
         // Listen to messages list changes and update recycle view
         chatViewModel.getChatMessages().observe(getViewLifecycleOwner(), adapter::submitList);
 
@@ -59,8 +67,36 @@ public class ChatFragment extends Fragment {
         String msg = "Opened chat " + getArguments().getString("chatId");
         Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
 
-        // Get chat messages
-        chatViewModel.loadChatMessages(getArguments().getString("chatId"));
+        // Get chat info
+        chatViewModel.getChatInfo(getArguments().getString("chatId"));
+        chatViewModel.getChatInfo().observe(getViewLifecycleOwner(), (chatInfo) -> {
+            ((MainActivity) getActivity()).getSupportActionBar().setTitle(chatInfo.getName());
+            ((MainActivity) getActivity()).getSupportActionBar().setSubtitle("2 participants");
+
+            Picasso.with(getContext())
+                    .load(chatInfo.getImage())
+                    .resize(140, 140)
+                    .centerCrop()
+                    .placeholder(R.drawable.avatar_1)
+                    .into(new Target() {
+                        @Override
+                        public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                            Drawable loadedChatImage = new BitmapDrawable(getContext().getResources(), bitmap);
+
+                            ((MainActivity) getActivity()).getSupportActionBar().setIcon(loadedChatImage);
+                        }
+
+                        @Override
+                        public void onBitmapFailed(Drawable errorDrawable) {
+
+                        }
+
+                        @Override
+                        public void onPrepareLoad(Drawable placeHolderDrawable) {
+
+                        }
+                    });
+        });
 
         // Handle message send
         binding.sendMessageButton.setOnClickListener(v -> {
@@ -94,6 +130,10 @@ public class ChatFragment extends Fragment {
         // Show floating button
         FloatingActionButton fab = getActivity().findViewById(R.id.fab);
         fab.show();
+
+        // Reset nav subtitle and icon
+        ((MainActivity) getActivity()).getSupportActionBar().setSubtitle("");
+        ((MainActivity) getActivity()).getSupportActionBar().setIcon(0);
     }
 
     private static class MessagesAdapter extends ListAdapter<Message, MessageViewHolder> {
