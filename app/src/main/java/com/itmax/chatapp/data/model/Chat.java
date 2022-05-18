@@ -1,5 +1,8 @@
 package com.itmax.chatapp.data.model;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class Chat {
 
     private String id;
@@ -12,6 +15,17 @@ public class Chat {
         this.name = name;
         this.image = image;
         this.lastMessage = lastMessage;
+    }
+
+    public Chat(JSONObject chatJsonObject) {
+        try {
+            this.id = chatJsonObject.getString("id");
+            this.name = chatJsonObject.getString("name");
+            this.image = chatJsonObject.getString("image");
+            this.lastMessage = new Message(chatJsonObject.getJSONObject("lastMessage"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     public String getId() {

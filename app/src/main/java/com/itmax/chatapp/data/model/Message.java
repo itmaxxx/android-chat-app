@@ -1,5 +1,8 @@
 package com.itmax.chatapp.data.model;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class Message {
 
     private String id;
@@ -18,6 +21,20 @@ public class Message {
         this.isAuthor = isAuthor;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+    }
+
+    public Message(JSONObject messageJsonObject) {
+        try {
+            this.id = messageJsonObject.getString("id");
+            this.chatId = messageJsonObject.getString("chatId");
+            this.text = messageJsonObject.getString("text");
+            this.author = new User(messageJsonObject.getJSONObject("author"));
+            this.isAuthor = messageJsonObject.getBoolean("isAuthor");
+            this.createdAt = messageJsonObject.getInt("createdAt");
+            this.updatedAt = messageJsonObject.getInt("updatedAt");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     public String getId() {
