@@ -16,6 +16,10 @@ public class ChatRepository {
         this.token = LoginRepository.getInstance().getLoggedInUser().getToken();
     }
 
+    public Result<List<Message>> getChatInfo(String chatId) {
+        return dataSource.getChatInfo(chatId, this.token);
+    }
+
     public Result<List<Message>> getChatMessages(String chatId) {
         return dataSource.getChatMessages(chatId, this.token);
     }
