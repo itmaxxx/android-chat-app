@@ -53,13 +53,8 @@ public class LoginDataSource {
                 return new Result.Error(new IOException("Error logging in"));
             }
 
-            JSONObject userData = jsonResponse.getJSONObject("data");
-            User user = new User(
-                    userData.getString("id"),
-                    userData.getString("fullname"),
-                    userData.getString("username"),
-                    userData.getString("image")
-            );
+            JSONObject userJsonObject = jsonResponse.getJSONObject("data");
+            User user = new User(userJsonObject);
 
             return new Result.Success(new LoggedInUser(
                     user,
