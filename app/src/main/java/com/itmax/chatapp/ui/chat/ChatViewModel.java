@@ -2,6 +2,7 @@ package com.itmax.chatapp.ui.chat;
 
 import android.util.Log;
 
+import androidx.core.app.NotificationCompat;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -10,7 +11,9 @@ import com.itmax.chatapp.AppConfig;
 import com.itmax.chatapp.data.Result;
 import com.itmax.chatapp.data.model.Chat;
 import com.itmax.chatapp.data.model.Message;
+import com.itmax.chatapp.data.model.Notification;
 import com.itmax.chatapp.data.repositories.ChatRepository;
+import com.itmax.chatapp.data.repositories.NotificationsRepository;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -54,8 +57,21 @@ public class ChatViewModel extends ViewModel {
                 JSONObject jsonData = new JSONObject(receivedData);
 
                 List<Message> newMessagesList = new ArrayList(messagesList.getValue());
-                newMessagesList.add(new Message(jsonData));
+
+                Message receivedMessage = new Message(jsonData);
+                newMessagesList.add(receivedMessage);
+
                 messagesList.postValue(newMessagesList);
+
+                // Create message notification
+                Notification notification = new Notification(
+                    receivedMessage.getCreatedAt(),
+                    receivedMessage.getAuthor().getFullname(),
+                    receivedMessage.getText(),
+                    NotificationCompat.PRIORITY_DEFAULT,
+                    receivedMessage.getChatId()
+                );
+                NotificationsRepository.getInstance().showNotification(notification);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
