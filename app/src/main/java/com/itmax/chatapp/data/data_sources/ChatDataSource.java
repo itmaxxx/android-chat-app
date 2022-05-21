@@ -11,9 +11,12 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.socket.client.IO;
+import io.socket.client.Socket;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -24,6 +27,13 @@ public class ChatDataSource {
 
     private final OkHttpClient client = new OkHttpClient();
     private static final MediaType JSON = MediaType.get("application/json; charset=utf-8");
+
+    private Socket mSocket;
+    {
+        try {
+            mSocket = IO.socket(AppConfig.WS_URL);
+        } catch (URISyntaxException e) {}
+    }
 
     public Result<List<Message>> getChatInfo(String chatId, String token) {
         try {
@@ -147,6 +157,10 @@ public class ChatDataSource {
             Log.i("Chat.sendMessage", messageJsonObject.toString());
 
             Message sentMessage = new Message(messageJsonObject);
+
+            // Send message to websocket server
+            mSocket.connect();
+            mSocket.emit("message:send", jsonResponse);
 
             return new Result.Success(sentMessage);
         }
