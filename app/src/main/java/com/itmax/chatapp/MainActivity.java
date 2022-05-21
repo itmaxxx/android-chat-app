@@ -19,6 +19,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.itmax.chatapp.data.model.LoggedInUser;
 import com.itmax.chatapp.data.model.User;
 import com.itmax.chatapp.data.repositories.LoginRepository;
+import com.itmax.chatapp.data.repositories.NotificationsRepository;
 import com.itmax.chatapp.databinding.ActivityMainBinding;
 import com.itmax.chatapp.ui.login.LoginActivity;
 import com.squareup.picasso.Picasso;
@@ -43,6 +44,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Create NotificationsRepository instance
+        NotificationsRepository.createInstance(this);
 
         // Connect to web socket server, so that we cache the connection
         mSocket.connect();

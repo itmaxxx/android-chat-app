@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">Chat App</string>
+    <!-- Notifications settings -->
+    <string name="channel_name">Chat App</string>
+    <string name="channel_description">Chat App Notifications</string>
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
