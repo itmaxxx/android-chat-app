@@ -2,6 +2,7 @@ package com.itmax.chatapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -22,13 +23,29 @@ import com.itmax.chatapp.databinding.ActivityMainBinding;
 import com.itmax.chatapp.ui.login.LoginActivity;
 import com.squareup.picasso.Picasso;
 
+import java.net.URISyntaxException;
+
+import io.socket.client.IO;
+import io.socket.client.Socket;
+
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
+    private Socket mSocket;
+    {
+        try {
+            mSocket = IO.socket(AppConfig.WS_URL);
+        } catch (URISyntaxException e) {
+            Log.e("WebSocket", e.getMessage());
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Connect to web socket server, so that we cache the connection
+        mSocket.connect();
 
         ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
