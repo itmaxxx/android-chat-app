@@ -10,96 +10,56 @@ import com.itmax.chatapp.AppConfig;
 import com.itmax.chatapp.data.Result;
 import com.itmax.chatapp.data.model.Chat;
 import com.itmax.chatapp.data.model.Message;
-import com.itmax.chatapp.data.model.User;
 import com.itmax.chatapp.data.repositories.ChatRepository;
-import com.itmax.chatapp.data.repositories.LoginRepository;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
-import tech.gusavila92.websocketclient.WebSocketClient;
+import io.socket.client.IO;
+import io.socket.client.Socket;
 
 public class ChatViewModel extends ViewModel {
 
-    private WebSocketClient webSocketClient;
     private final ChatRepository chatRepository;
     private final MutableLiveData<List<Message>> messagesList;
     private final MutableLiveData<Chat> chatInfo;
+
+    private Socket mSocket;
+    {
+        try {
+            mSocket = IO.socket(AppConfig.WS_URL);
+        } catch (URISyntaxException e) {
+            Log.e("WebSocket", e.getMessage());
+        }
+    }
 
     public ChatViewModel(ChatRepository chatRepository) {
         this.chatRepository = chatRepository;
         messagesList = new MutableLiveData<>();
         chatInfo = new MutableLiveData<>();
-        this.createWebSocketClient();
     }
 
-    private void createWebSocketClient() {
-        URI uri;
-        try {
-            uri = new URI(AppConfig.WS_URL);
-        }
-        catch (URISyntaxException e) {
-            e.printStackTrace();
-            return;
-        }
+    public void listenForChatMessages(String chatId) {
+        mSocket.connect();
 
-        webSocketClient = new WebSocketClient(uri) {
-            @Override
-            public void onOpen() {
-                Log.i("WS", "onOpen");
+        mSocket.on("message", args -> {
+            try {
+                String receivedData = args[0].toString();
+                Log.i("WebSocket", "Got message: " + receivedData);
+
+                JSONObject jsonData = new JSONObject(receivedData);
+
+                List<Message> newMessagesList = new ArrayList(messagesList.getValue());
+                newMessagesList.add(new Message(jsonData));
+                messagesList.postValue(newMessagesList);
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
-
-            @Override
-            public void onTextReceived(String message) {
-                Log.i("WS", "onTextReceived: " + message);
-
-                try {
-                    JSONObject messageReceived = new JSONObject(message);
-
-                    List<Message> newMessagesList = new ArrayList(messagesList.getValue());
-                    newMessagesList.add(new Message(messageReceived));
-                    messagesList.postValue(newMessagesList);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void onBinaryReceived(byte[] data) {
-                Log.i("WS", "onBinaryReceived");
-            }
-
-            @Override
-            public void onPingReceived(byte[] data) {
-                Log.i("WS", "onPingReceived");
-            }
-
-            @Override
-            public void onPongReceived(byte[] data) {
-                Log.i("WS", "onPongReceived");
-            }
-
-            @Override
-            public void onException(Exception ex) {
-                Log.e("WS", ex.getMessage());
-            }
-
-            @Override
-            public void onCloseReceived() {
-                Log.i("WS", "onCloseReceived");
-            }
-        };
-
-        webSocketClient.setConnectTimeout(10000);
-        webSocketClient.setReadTimeout(60000);
-        webSocketClient.addHeader("Authorization", "Bearer " + LoginRepository.getInstance().getLoggedInUser().getToken());
-        webSocketClient.enableAutomaticReconnection(5000);
-        webSocketClient.connect();
+        });
     }
 
     public LiveData<Chat> getChatInfo() {
@@ -149,8 +109,6 @@ public class ChatViewModel extends ViewModel {
                 // Create new List so we change reference and force messages list re-render
                 List<Message> newMessagesList = new ArrayList<>(messagesList.getValue());
                 newMessagesList.add(data);
-
-                webSocketClient.send(text);
 
                 messagesList.postValue(newMessagesList);
             }

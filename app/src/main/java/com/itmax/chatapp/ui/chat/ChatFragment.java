@@ -63,6 +63,9 @@ public class ChatFragment extends Fragment {
         // Listen to messages list changes and update recycle view
         chatViewModel.getChatMessages().observe(getViewLifecycleOwner(), adapter::submitList);
 
+        // Listen to websocket message event
+        chatViewModel.listenForChatMessages(getArguments().getString("chatId"));
+
         // Show opened chat id
         String msg = "Opened chat " + getArguments().getString("chatId");
         Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
