@@ -23,7 +23,7 @@ import okhttp3.Response;
 public class ChatsDataSource {
 
     private final OkHttpClient client = new OkHttpClient();
-    private static final MediaType JSON = MediaType.get("application/json; charaset=utf-8");
+    private static final MediaType JSON = MediaType.get("application/json; charset=utf-8");
 
     public Result<List<Chat>> getChats(String token) {
 
