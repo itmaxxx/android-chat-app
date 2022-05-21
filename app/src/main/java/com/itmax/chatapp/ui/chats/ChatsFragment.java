@@ -49,6 +49,9 @@ public class ChatsFragment extends Fragment {
         // Listen to chats list changes and update recycle view
         chatsViewModel.getChats().observe(getViewLifecycleOwner(), adapter::submitList);
 
+        // Listen to websocket server chat invitations
+        chatsViewModel.listenForChatsInvitations();
+
         // Handle refresh chats list
         SwipeRefreshLayout swipeContainer = binding.chatsSwipeContainer;
         swipeContainer.setOnRefreshListener(() -> {
