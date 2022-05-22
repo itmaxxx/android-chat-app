@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
+import androidx.core.app.NotificationCompat;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
@@ -17,12 +18,17 @@ import androidx.navigation.ui.NavigationUI;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.itmax.chatapp.data.model.LoggedInUser;
+import com.itmax.chatapp.data.model.Message;
+import com.itmax.chatapp.data.model.Notification;
 import com.itmax.chatapp.data.model.User;
 import com.itmax.chatapp.data.repositories.LoginRepository;
 import com.itmax.chatapp.data.repositories.NotificationsRepository;
 import com.itmax.chatapp.databinding.ActivityMainBinding;
 import com.itmax.chatapp.ui.login.LoginActivity;
 import com.squareup.picasso.Picasso;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.net.URISyntaxException;
 
@@ -50,6 +56,9 @@ public class MainActivity extends AppCompatActivity {
 
         // Connect to web socket server, so that we cache the connection
         mSocket.connect();
+
+        // Listen for new messages
+        this.listenForNewMessages();
 
         ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -108,5 +117,34 @@ public class MainActivity extends AppCompatActivity {
         startActivity(loginActivity);
 
         finish();
+    }
+
+    public void listenForNewMessages() {
+        mSocket.on("message", args -> {
+            try {
+                String receivedData = args[0].toString();
+                Log.i("WebSocket", "Got message in main thread: " + receivedData);
+
+                JSONObject jsonData = new JSONObject(receivedData);
+
+                Message receivedMessage = new Message(jsonData);
+
+                // TODO: Check if new message belongs to current (opened) chat
+                //       and if true, don't create notification
+                //       Also, check if current user is not message author
+
+                // Create message notification
+                Notification notification = new Notification(
+                        receivedMessage.getCreatedAt(),
+                        receivedMessage.getAuthor().getFullname(),
+                        receivedMessage.getText(),
+                        NotificationCompat.PRIORITY_DEFAULT,
+                        "com.max.chatapp." + receivedMessage.getChatId()
+                );
+                NotificationsRepository.getInstance().showNotification(notification);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        });
     }
 }
