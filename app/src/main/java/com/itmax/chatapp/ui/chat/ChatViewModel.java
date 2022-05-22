@@ -24,12 +24,14 @@ import java.util.List;
 
 import io.socket.client.IO;
 import io.socket.client.Socket;
+import io.socket.emitter.Emitter;
 
 public class ChatViewModel extends ViewModel {
 
     private final ChatRepository chatRepository;
     private final MutableLiveData<List<Message>> messagesList;
     private final MutableLiveData<Chat> chatInfo;
+    private Emitter.Listener chatMessagesListener;
 
     private Socket mSocket;
     {
@@ -49,33 +51,33 @@ public class ChatViewModel extends ViewModel {
     public void listenForChatMessages(String chatId) {
         mSocket.connect();
 
-        mSocket.on("message", args -> {
+        chatMessagesListener = args -> {
             try {
                 String receivedData = args[0].toString();
-                Log.i("WebSocket", "Got message: " + receivedData);
+                Log.i("WebSocket", "Got new chat '" + chatId + "' message: " + receivedData);
 
                 JSONObject jsonData = new JSONObject(receivedData);
 
-                List<Message> newMessagesList = new ArrayList(messagesList.getValue());
-
                 Message receivedMessage = new Message(jsonData);
-                newMessagesList.add(receivedMessage);
 
-                messagesList.postValue(newMessagesList);
-
-                // Create message notification
-                Notification notification = new Notification(
-                    receivedMessage.getCreatedAt(),
-                    receivedMessage.getAuthor().getFullname(),
-                    receivedMessage.getText(),
-                    NotificationCompat.PRIORITY_DEFAULT,
-                    receivedMessage.getChatId()
-                );
-                NotificationsRepository.getInstance().showNotification(notification);
+                // Add message to messages list
+                if (receivedMessage.getChatId().equals(chatId)) {
+                    List<Message> newMessagesList = new ArrayList(messagesList.getValue());
+                    newMessagesList.add(receivedMessage);
+                    messagesList.postValue(newMessagesList);
+                }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-        });
+        };
+
+        mSocket.on("message", chatMessagesListener);
+    }
+
+    public void removeChatMessagesListener() {
+        Log.i("WebSocket", "Remove chat new messages listener");
+        mSocket.off("messages", chatMessagesListener);
+        mSocket.disconnect();
     }
 
     public LiveData<Chat> getChatInfo() {

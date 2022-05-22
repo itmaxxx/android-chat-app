@@ -39,11 +39,12 @@ import java.util.List;
 public class ChatFragment extends Fragment {
 
     private FragmentChatBinding binding;
+    private ChatViewModel chatViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        ChatViewModel chatViewModel = new ViewModelProvider(this, new ChatViewModelFactory())
-                .get(ChatViewModel.class);
+        chatViewModel = new ViewModelProvider(this, new ChatViewModelFactory())
+                        .get(ChatViewModel.class);
 
         // Hide floating button
         FloatingActionButton fab = getActivity().findViewById(R.id.fab);
@@ -63,7 +64,7 @@ public class ChatFragment extends Fragment {
         // Listen to messages list changes and update recycle view
         chatViewModel.getChatMessages().observe(getViewLifecycleOwner(), adapter::submitList);
 
-        // Listen to websocket message event
+        // Listen for new chat messages
         chatViewModel.listenForChatMessages(getArguments().getString("chatId"));
 
         // Show opened chat id
@@ -137,6 +138,9 @@ public class ChatFragment extends Fragment {
         // Reset nav subtitle and icon
         ((MainActivity) getActivity()).getSupportActionBar().setSubtitle("");
         ((MainActivity) getActivity()).getSupportActionBar().setIcon(0);
+
+        // Remove chat messages event listener
+        chatViewModel.removeChatMessagesListener();
     }
 
     private static class MessagesAdapter extends ListAdapter<Message, MessageViewHolder> {
