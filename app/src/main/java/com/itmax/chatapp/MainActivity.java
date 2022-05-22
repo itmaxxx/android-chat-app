@@ -34,10 +34,12 @@ import java.net.URISyntaxException;
 
 import io.socket.client.IO;
 import io.socket.client.Socket;
+import io.socket.emitter.Emitter;
 
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
+    private Emitter.Listener newMessagesListener;
     private Socket mSocket;
     {
         try {
@@ -112,6 +114,14 @@ public class MainActivity extends AppCompatActivity {
                 .into(image);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        // Remove new messages listener
+        removeNewMessagesListener();
+    }
+
     public void handleLogout() {
         Intent loginActivity = new Intent(this, LoginActivity.class);
         startActivity(loginActivity);
@@ -119,8 +129,8 @@ public class MainActivity extends AppCompatActivity {
         finish();
     }
 
-    public void listenForNewMessages() {
-        mSocket.on("message", args -> {
+    private void listenForNewMessages() {
+        newMessagesListener = args -> {
             try {
                 String receivedData = args[0].toString();
                 Log.i("WebSocket", "Got message in main thread: " + receivedData);
@@ -145,6 +155,13 @@ public class MainActivity extends AppCompatActivity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-        });
+        };
+
+        mSocket.on("message", newMessagesListener);
+    }
+
+    private void removeNewMessagesListener() {
+        mSocket.off("messages", newMessagesListener);
+        mSocket.disconnect();
     }
 }
