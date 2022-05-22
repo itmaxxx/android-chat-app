@@ -13,6 +13,7 @@ import com.itmax.chatapp.data.model.Chat;
 import com.itmax.chatapp.data.model.Message;
 import com.itmax.chatapp.data.model.Notification;
 import com.itmax.chatapp.data.repositories.ChatRepository;
+import com.itmax.chatapp.data.repositories.LoginRepository;
 import com.itmax.chatapp.data.repositories.NotificationsRepository;
 
 import org.json.JSONException;
@@ -61,7 +62,9 @@ public class ChatViewModel extends ViewModel {
                 Message receivedMessage = new Message(jsonData);
 
                 // Add message to messages list
-                if (receivedMessage.getChatId().equals(chatId)) {
+                if (receivedMessage.getChatId().equals(chatId)
+                        && !receivedMessage.getIsAuthor()
+                        && receivedMessage.getAuthor().getId().equals(LoginRepository.getInstance().getLoggedInUser().getUserId())) {
                     List<Message> newMessagesList = new ArrayList(messagesList.getValue());
                     newMessagesList.add(receivedMessage);
                     messagesList.postValue(newMessagesList);
