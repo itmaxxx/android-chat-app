@@ -85,6 +85,11 @@ public class MainActivity extends AppCompatActivity {
             NavigationUI.setupWithNavController(navigationView, navController);
         }
 
+        // This is for custom app bar navigate back button
+        binding.appBarMain.chatHeaderNavBack.setOnClickListener(v -> {
+            navController.navigateUp();
+        });
+
         // Set left navigation user info
         LoggedInUser loggedInUser = LoginRepository.getInstance().getLoggedInUser();
         this.updateNavHeaderUserData(
