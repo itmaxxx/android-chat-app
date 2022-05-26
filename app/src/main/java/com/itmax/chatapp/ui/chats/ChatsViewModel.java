@@ -10,6 +10,7 @@ import com.itmax.chatapp.AppConfig;
 import com.itmax.chatapp.data.model.Chat;
 import com.itmax.chatapp.data.model.Message;
 import com.itmax.chatapp.data.repositories.ChatsRepository;
+import com.itmax.chatapp.data.repositories.LoginRepository;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -57,6 +58,20 @@ public class ChatsViewModel extends ViewModel {
                 e.printStackTrace();
             }
         });
+    }
+
+    public void createChat(String name) {
+        try {
+            mSocket.connect();
+
+            JSONObject chatToCreate = new JSONObject();
+            chatToCreate.put("name", name);
+            chatToCreate.put("token", LoginRepository.getInstance().getLoggedInUser().getToken());
+
+            mSocket.emit("chat:create", chatToCreate.toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     public void loadChats() {

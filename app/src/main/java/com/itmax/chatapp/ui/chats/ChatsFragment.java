@@ -35,10 +35,11 @@ import java.util.List;
 public class ChatsFragment extends Fragment implements CreateChatDialogFragment.CreateChatDialogListener {
 
     private FragmentChatsBinding binding;
+    private ChatsViewModel chatsViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        ChatsViewModel chatsViewModel = new ViewModelProvider(this, new ChatsViewModelFactory())
+        chatsViewModel = new ViewModelProvider(this, new ChatsViewModelFactory())
                 .get(ChatsViewModel.class);
 
         binding = FragmentChatsBinding.inflate(inflater, container, false);
@@ -79,6 +80,7 @@ public class ChatsFragment extends Fragment implements CreateChatDialogFragment.
     public void onDialogPositiveClick(DialogFragment dialog) {
         TextView chatName = dialog.getDialog().findViewById(R.id.dialog_create_chat_name);
         Log.i("ChatsFragment", "Create chat " + chatName.getText());
+        chatsViewModel.createChat(chatName.getText().toString());
     }
 
     @Override

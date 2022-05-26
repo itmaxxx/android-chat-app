@@ -12,10 +12,8 @@
         android:text="@string/dialog_create_chat_title" />
     <EditText
         android:id="@+id/dialog_create_chat_name"
-        android:inputType="textCapWords"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
         android:layout_marginHorizontal="10dp"
         android:layout_marginBottom="4dp"
         android:hint="@string/dialog_create_chat_name" />
