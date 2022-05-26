@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.core.text.HtmlCompat;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
@@ -19,17 +20,19 @@ import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.itmax.chatapp.R;
 import com.itmax.chatapp.data.model.Chat;
 import com.itmax.chatapp.data.model.Message;
 import com.itmax.chatapp.databinding.FragmentChatsBinding;
 import com.itmax.chatapp.databinding.ItemChatBinding;
+import com.itmax.chatapp.ui.create_chat_dialog.CreateChatDialogFragment;
 import com.squareup.picasso.Picasso;
 
 import java.util.Arrays;
 import java.util.List;
 
-public class ChatsFragment extends Fragment {
+public class ChatsFragment extends Fragment implements CreateChatDialogFragment.CreateChatDialogListener {
 
     private FragmentChatsBinding binding;
 
@@ -60,7 +63,22 @@ public class ChatsFragment extends Fragment {
             swipeContainer.setRefreshing(false);
         });
 
+        // Create chat dialog
+        CreateChatDialogFragment createChatDialogFragment = new CreateChatDialogFragment();
+        createChatDialogFragment.setTargetFragment(this, 100);
+
+        FloatingActionButton fab = getActivity().findViewById(R.id.fab);
+        fab.setOnClickListener(view -> {
+            createChatDialogFragment.show(this.getParentFragmentManager(), "create_chat_dialog_tag");
+        });
+
         return root;
+    }
+
+    @Override
+    public void onDialogPositiveClick(DialogFragment dialog) {
+        TextView chatName = dialog.getDialog().findViewById(R.id.dialog_create_chat_name);
+        Log.i("ChatsFragment", "Create chat " + chatName.getText());
     }
 
     @Override

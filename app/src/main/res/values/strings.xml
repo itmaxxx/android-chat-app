@@ -24,6 +24,13 @@
     <string name="menu_slideshow">Slideshow</string>
     <string name="menu_settings">Settings</string>
 
+    <!-- Create chat dialog -->
+    <string name="dialog_create_chat_title">Create chat</string>
+    <string name="dialog_create_chat_name">Chat name</string>
+    <string name="dialog_create_chat_public">Public chat</string>
+    <string name="dialog_create_chat_create">Create</string>
+    <string name="dialog_create_chat_cancel">Cancel</string>
+
     <string name="lorem_ipsum_title">Lorem Ipsum"</string>
     <string name="lorem_ipsum">Lorem Ipsum is simply placeholder text of the printing and
         typesetting industry. Lorem Ipsum has been the industry\'s standard placeholder text ever
