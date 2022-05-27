@@ -4,12 +4,16 @@ import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.SearchView;
 import androidx.core.text.HtmlCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
@@ -51,7 +55,7 @@ public class ChatsFragment extends Fragment implements CreateChatDialogFragment.
         recyclerView.setAdapter(adapter);
 
         // Listen to chats list changes and update recycle view
-        chatsViewModel.getChats().observe(getViewLifecycleOwner(), adapter::submitList);
+        chatsViewModel.getFilteredChats().observe(getViewLifecycleOwner(), adapter::submitList);
 
         // Listen to websocket server chat invitations
         chatsViewModel.listenForChatsInvitations();
@@ -73,7 +77,39 @@ public class ChatsFragment extends Fragment implements CreateChatDialogFragment.
             createChatDialogFragment.show(this.getParentFragmentManager(), "create_chat_dialog_tag");
         });
 
+        // Create search option menu
+        setHasOptionsMenu(true);
+
+        // Update filtered chats list when we got update in original chats list
+        chatsViewModel.getChats().observe(getViewLifecycleOwner(), v -> {
+            chatsViewModel.updateFilteredChatsList();
+        });
+
         return root;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        inflater.inflate(R.menu.search_menu, menu);
+
+        MenuItem menuItem = menu.findItem(R.id.action_search);
+        SearchView searchView = (SearchView) menuItem.getActionView();
+        searchView.setQueryHint("Type here to search");
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                chatsViewModel.filterChatsByName(s);
+                return false;
+            }
+        });
+
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override

@@ -9,6 +9,7 @@
         <entry key="app/src/main/res/drawable-v24/message_item_drawable_left.xml" value="0.177" />
         <entry key="app/src/main/res/drawable-v24/message_send_button.xml" value="0.1505" />
         <entry key="app/src/main/res/drawable/baseline_arrow_back_24.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/baseline_search_24.xml" value="0.1645" />
         <entry key="app/src/main/res/drawable/ic_message_black_24dp.xml" value="0.155" />
         <entry key="app/src/main/res/drawable/ic_settings_black_24dp.xml" value="0.1645" />
         <entry key="app/src/main/res/drawable/ic_slideshow_black_24dp.xml" value="0.1645" />
@@ -41,7 +42,8 @@
         <entry key="app/src/main/res/layout/nav_header_main.xml" value="0.335" />
         <entry key="app/src/main/res/menu/bottom_navigation.xml" value="0.30512820512820515" />
         <entry key="app/src/main/res/menu/navigation_drawer.xml" value="0.30512820512820515" />
-        <entry key="app/src/main/res/menu/overflow.xml" value="0.165" />
+        <entry key="app/src/main/res/menu/overflow.xml" value="0.335" />
+        <entry key="app/src/main/res/menu/search_menu.xml" value="0.25116082735331363" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1645" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.1645" />
       </map>

@@ -18,6 +18,8 @@ import org.json.JSONObject;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+import java.util.stream.Collectors;
 
 import io.socket.client.IO;
 import io.socket.client.Socket;
@@ -26,6 +28,8 @@ public class ChatsViewModel extends ViewModel {
 
     private final ChatsRepository chatsRepository;
     private final MutableLiveData<List<Chat>> chatsList;
+    private final MutableLiveData<List<Chat>> chatsListFiltered;
+
     private Socket mSocket;
     {
         try {
@@ -38,7 +42,12 @@ public class ChatsViewModel extends ViewModel {
     public ChatsViewModel(ChatsRepository chatsRepository) {
         this.chatsRepository = chatsRepository;
         chatsList = new MutableLiveData<>();
+        chatsListFiltered = new MutableLiveData<>();
         loadChats();
+    }
+
+    public void updateFilteredChatsList() {
+        chatsListFiltered.setValue(chatsList.getValue());
     }
 
     public void listenForChatsInvitations() {
@@ -80,5 +89,22 @@ public class ChatsViewModel extends ViewModel {
 
     public LiveData<List<Chat>> getChats() {
         return chatsList;
+    }
+
+    public LiveData<List<Chat>> getFilteredChats() {
+        return chatsListFiltered;
+    }
+
+    public void filterChatsByName(String query) {
+        List<Chat> _chatsList = new ArrayList<>(chatsList.getValue());
+        List<Chat> _filteredChatsList= _chatsList
+                .stream()
+                .filter(chat ->
+                        chat.getName()
+                                .toLowerCase(Locale.ROOT)
+                                .contains(query.toLowerCase(Locale.ROOT))
+                )
+                .collect(Collectors.toList());
+        chatsListFiltered.setValue(_filteredChatsList);
     }
 }
