@@ -158,7 +158,8 @@ public class ChatsFragment extends Fragment implements CreateChatDialogFragment.
                 @Override
                 public boolean areContentsTheSame(@NonNull Chat oldItem, @NonNull Chat newItem) {
                     return oldItem.getName().equals(newItem.getName())
-                            && oldItem.getImage().equals(newItem.getImage());
+                            && oldItem.getImage().equals(newItem.getImage())
+                            && oldItem.getLastMessage().getId().equals(newItem.getLastMessage().getId());
                 }
             });
 
