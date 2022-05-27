@@ -41,4 +41,8 @@
     <string name="image_view_item_chat_content_description">Represents an image view in the
         item
     </string>
+
+    <!-- Save user credentials -->
+    <string name="user_login">user_login</string>
+    <string name="user_password">user_password</string>
 </resources>

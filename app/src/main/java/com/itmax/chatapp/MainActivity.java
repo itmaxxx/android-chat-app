@@ -1,6 +1,8 @@
 package com.itmax.chatapp;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
@@ -124,7 +126,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void handleLogout() {
+        SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.remove(getString(R.string.user_login));
+        editor.remove(getString(R.string.user_password));
+        editor.apply();
+
+        LoginRepository.getInstance().logout();
         Intent loginActivity = new Intent(this, LoginActivity.class);
+
         startActivity(loginActivity);
 
         finish();

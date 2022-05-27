@@ -5,7 +5,9 @@ import android.app.Activity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -14,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -25,12 +28,15 @@ import android.widget.Toast;
 
 import com.itmax.chatapp.MainActivity;
 import com.itmax.chatapp.R;
+import com.itmax.chatapp.data.repositories.LoginRepository;
 import com.itmax.chatapp.databinding.ActivityLoginBinding;
 
 public class LoginActivity extends AppCompatActivity {
 
     private LoginViewModel loginViewModel;
     private ActivityLoginBinding binding;
+    private String savedLogin;
+    private String savedPassword;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -46,6 +52,24 @@ public class LoginActivity extends AppCompatActivity {
         final EditText passwordEditText = binding.password;
         final Button loginButton = binding.login;
         final ProgressBar loadingProgressBar = binding.loading;
+
+        SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+        savedLogin = sharedPref.getString(getString(R.string.user_login), "");
+        savedPassword = sharedPref.getString(getString(R.string.user_password), "");
+
+        sharedPref.registerOnSharedPreferenceChangeListener(new SharedPreferences.OnSharedPreferenceChangeListener() {
+            @Override
+            public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
+                savedLogin = sharedPreferences.getString(getString(R.string.user_login), "");
+                savedPassword = sharedPreferences.getString(getString(R.string.user_password), "");
+            }
+        });
+
+        Log.i("LoginActivity", "Credentials loaded: " + savedLogin + ":" + savedPassword);
+
+        if (!savedLogin.equals("") && !savedPassword.equals("")) {
+            loginViewModel.login(savedLogin, savedPassword);
+        }
 
         loginViewModel.getLoginFormState().observe(this, new Observer<LoginFormState>() {
             @Override
@@ -74,6 +98,12 @@ public class LoginActivity extends AppCompatActivity {
                     showLoginFailed(loginResult.getError());
                 }
                 if (loginResult.getSuccess() != null) {
+                    SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPref.edit();
+                    editor.putString(getString(R.string.user_login), usernameEditText.getText().toString());
+                    editor.putString(getString(R.string.user_password), passwordEditText.getText().toString());
+                    editor.apply();
+
                     updateUiWithUser(loginResult.getSuccess());
 
                     setResult(Activity.RESULT_OK);

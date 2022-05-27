@@ -1,5 +1,7 @@
 package com.itmax.chatapp.ui.settings;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.itmax.chatapp.MainActivity;
+import com.itmax.chatapp.R;
 import com.itmax.chatapp.data.repositories.LoginRepository;
 import com.itmax.chatapp.databinding.FragmentSettingsBinding;
 
@@ -30,7 +33,6 @@ public class SettingsFragment extends Fragment {
         settingsViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
 
         binding.buttonLogout.setOnClickListener(v -> {
-            LoginRepository.getInstance().logout();
             MainActivity mainActivity = (MainActivity) getContext();
             mainActivity.handleLogout();
         });
