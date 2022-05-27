@@ -64,7 +64,7 @@ public class ChatViewModel extends ViewModel {
                 // Add message to messages list
                 if (receivedMessage.getChatId().equals(chatId)
                         && !receivedMessage.getIsAuthor()
-                        && receivedMessage.getAuthor().getId().equals(LoginRepository.getInstance().getLoggedInUser().getUserId())) {
+                        && !receivedMessage.getAuthor().getId().equals(LoginRepository.getInstance().getLoggedInUser().getUserId())) {
                     List<Message> newMessagesList = new ArrayList(messagesList.getValue());
                     newMessagesList.add(receivedMessage);
                     messagesList.postValue(newMessagesList);
