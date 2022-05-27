@@ -54,7 +54,6 @@ public class NotificationsRepository {
                             .setSmallIcon(R.drawable.telegram)
                             .setContentTitle(notification.getTitle())
                             .setContentText(notification.getText())
-                            .setGroup(notification.getGroupId())
                             .setPriority(notification.getPriority());
 
             NotificationManagerCompat notificationManager =
