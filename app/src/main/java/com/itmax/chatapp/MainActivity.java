@@ -17,6 +17,7 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.itmax.chatapp.data.AppState;
 import com.itmax.chatapp.data.model.LoggedInUser;
 import com.itmax.chatapp.data.model.Message;
 import com.itmax.chatapp.data.model.Notification;
@@ -139,12 +140,20 @@ public class MainActivity extends AppCompatActivity {
 
                 Message receivedMessage = new Message(jsonData);
 
-                // TODO: Check if new message belongs to current (opened) chat
-                //       and if true, don't create notification
-                //       Also, check if current user is not message author
+                // Check if current user is not message author
+                if (receivedMessage.getIsAuthor()) {
+                    return;
+                }
+
+                // Check if new message belongs to current (opened) chat
+                if (receivedMessage.getChatId().equals(AppState.getInstance().getCurrentChatId())) {
+                    return;
+                }
 
                 // Create message notification
                 Notification notification = new Notification(
+                        // TODO: When message id's are random, replace getCreateAt with getId
+//                        receivedMessage.getId(),
                         receivedMessage.getCreatedAt(),
                         receivedMessage.getAuthor().getFullname(),
                         receivedMessage.getText(),

@@ -26,6 +26,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.itmax.chatapp.MainActivity;
 import com.itmax.chatapp.R;
+import com.itmax.chatapp.data.AppState;
 import com.itmax.chatapp.data.model.Message;
 import com.itmax.chatapp.data.model.User;
 import com.itmax.chatapp.databinding.FragmentChatBinding;
@@ -46,6 +47,8 @@ public class ChatFragment extends Fragment {
         chatViewModel = new ViewModelProvider(this, new ChatViewModelFactory())
                         .get(ChatViewModel.class);
 
+        String openedChatId = getArguments().getString("chatId");
+
         // Hide floating button
         FloatingActionButton fab = getActivity().findViewById(R.id.fab);
         fab.hide();
@@ -59,20 +62,23 @@ public class ChatFragment extends Fragment {
         recyclerView.setAdapter(adapter);
 
         // Get chat messages
-        chatViewModel.getChatMessages(getArguments().getString("chatId"));
+        chatViewModel.getChatMessages(openedChatId);
 
         // Listen to messages list changes and update recycle view
         chatViewModel.getChatMessages().observe(getViewLifecycleOwner(), adapter::submitList);
 
         // Listen for new chat messages
-        chatViewModel.listenForChatMessages(getArguments().getString("chatId"));
+        chatViewModel.listenForChatMessages(openedChatId);
 
         // Show opened chat id
-        String msg = "Opened chat " + getArguments().getString("chatId");
+        String msg = "Opened chat " + openedChatId;
         Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
 
+        // Set current chat in app state
+        AppState.getInstance().setCurrentChatId(openedChatId);
+
         // Get chat info
-        chatViewModel.getChatInfo(getArguments().getString("chatId"));
+        chatViewModel.getChatInfo(openedChatId);
         chatViewModel.getChatInfo().observe(getViewLifecycleOwner(), (chatInfo) -> {
             ((MainActivity) getActivity()).getSupportActionBar().setTitle(chatInfo.getName());
             ((MainActivity) getActivity()).getSupportActionBar().setSubtitle("2 participants");
@@ -107,7 +113,7 @@ public class ChatFragment extends Fragment {
             try {
                 final String messageText = binding.messageEditText.getText() + "";
 
-                chatViewModel.sendMessage(getArguments().getString("chatId"), messageText);
+                chatViewModel.sendMessage(openedChatId, messageText);
 
                 recyclerView.scrollToPosition(adapter.getItemCount() - 1);
 
@@ -141,6 +147,9 @@ public class ChatFragment extends Fragment {
 
         // Remove chat messages event listener
         chatViewModel.removeChatMessagesListener();
+
+        // Unset current chat from app state
+        AppState.getInstance().setCurrentChatId(null);
     }
 
     private static class MessagesAdapter extends ListAdapter<Message, MessageViewHolder> {

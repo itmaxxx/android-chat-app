@@ -72,6 +72,7 @@ public class ChatsFragment extends Fragment implements CreateChatDialogFragment.
         CreateChatDialogFragment createChatDialogFragment = new CreateChatDialogFragment();
         createChatDialogFragment.setTargetFragment(this, 100);
 
+        // Hang create chat dialog on fab click
         FloatingActionButton fab = getActivity().findViewById(R.id.fab);
         fab.setOnClickListener(view -> {
             createChatDialogFragment.show(this.getParentFragmentManager(), "create_chat_dialog_tag");
