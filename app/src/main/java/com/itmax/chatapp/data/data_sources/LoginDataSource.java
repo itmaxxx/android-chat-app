@@ -30,7 +30,7 @@ public class LoginDataSource {
         try {
             Log.i("SignIn.LoginDataSource.login()", username + ":" + password);
 
-            RequestBody body = RequestBody.create(JSON, "{\"username\":\"" + username + "\",\"" + password + "\":\"qwerty\"}");
+            RequestBody body = RequestBody.create(JSON, "{\"username\":\"" + username + "\",\"password\":\"" + password + "\"}");
             Request request = new Request.Builder()
                     .url(AppConfig.API_URL + "/auth/sign-in")
                     .post(body)
